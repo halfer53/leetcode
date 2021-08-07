@@ -1,18 +1,14 @@
 class Solution:
     def permute(self, nums: List[int]) -> List[List[int]]:
-        n = len(nums)
+        self.n = len(nums)
         self.ret = []
-        self.backtrack([], nums)
+        self.dfs(nums, [])
         return self.ret
         
-    def backtrack(self, track: List[int], nums: List[int]):
-        if len(track) == len(nums):
+    def dfs(self, nums: List[int], track: List[int]):
+        if len(track) == self.n:
             self.ret.append(track[:])
-            return
-        for j in range(len(nums)):
-            if nums[j] in track:
-                continue
-            track.append(nums[j])
-            self.backtrack(track, nums)
-            track.pop()
+        for i in range(len(nums)):
+            val = nums[i]
+            self.dfs(nums[:i] + nums[i+1:], track + [val]  )
         
