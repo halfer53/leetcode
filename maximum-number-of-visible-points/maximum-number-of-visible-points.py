@@ -1,6 +1,7 @@
 class Solution:
     def visiblePoints(self, points: List[List[int]], angle: int, location: List[int]) -> int:
         extra = 0
+        ret = 0
         x, y = location
         arr = []
         for xx, yy in points:
@@ -9,11 +10,12 @@ class Solution:
                 continue
             arr.append(math.atan2(xx - x, yy - y))
         arr.sort()
-        arr += [ x + 2.0 * math.pi for x in arr]
-        l = ret = r = 0
-        angle = math.pi * angle / 180
-        for r in range(len(arr)):
-            while arr[r] - arr[l] > angle:
+        arr += [x + math.pi * 2.0 for x in arr]
+        angle = angle / 180 * math.pi
+        l = r = 0
+        while r < len(arr):
+            while r < len(arr) and l <= r and arr[r] - arr[l] > angle:
                 l += 1
             ret = max(ret, r - l + 1)
+            r += 1
         return ret + extra
