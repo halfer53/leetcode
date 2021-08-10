@@ -2,10 +2,15 @@ class Solution:
     def findMaxValueOfEquation(self, points: List[List[int]], k: int) -> int:
         q = []
         ret = -float('inf')
-        for xj, yj in points:
-            while len(q) and xj - q[0][1] > k:
-                heapq.heappop(q)
+        stack = collections.deque([])
+        n = len(points)
+        for i in range(n):
+            x, y = points[i]
             if len(q):
-                ret = max(ret, -q[0][0] + xj + yj)
-            heapq.heappush(q, (-(yj - xj), xj))
+                while len(q) and x - q[0][1]> k:
+                    heapq.heappop(q)
+                if len(q):
+                    val = -q[0][0] + x + y
+                    ret = max(ret, val)
+            heapq.heappush(q, (x - y, x, y))
         return ret
