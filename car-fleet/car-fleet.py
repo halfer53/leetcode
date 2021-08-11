@@ -1,11 +1,12 @@
 class Solution:
     def carFleet(self, target: int, position: List[int], speed: List[int]) -> int:
-        time = [float(target - p) / s for p, s in sorted(zip(position, speed))]
-        fleet = 0
+        loop = sorted(zip(position, speed))
+        speed_list = [(target - position) / speed for position, speed in loop]
+        ret = 0
         curr = 0
-        for t in time[::-1]:
-            if t > curr:
-                curr = t
-                fleet += 1
-        return fleet
-                
+        for speed in speed_list[::-1]:
+            if speed > curr:
+                ret += 1
+                curr = speed
+        return ret
+            
