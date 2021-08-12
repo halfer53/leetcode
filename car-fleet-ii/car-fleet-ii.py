@@ -1,7 +1,7 @@
 class Solution:
     def getCollisionTimes(self, cars: List[List[int]]) -> List[float]:
-        n = len(cars)
         stack = []
+        n = len(cars)
         ret = [-1.0] * n
         for i in reversed(range(n)):
             pos, speed = cars[i]
@@ -9,12 +9,12 @@ class Solution:
                 stack.pop()
             while len(stack):
                 ci = stack[-1]
-                cpos, cspeed = cars[ci]
-                time = (cpos - pos) / (speed - cspeed)
+                xpos, xspeed = cars[stack[-1]]
+                time = (xpos - pos) / (speed - xspeed)
                 if time <= ret[ci] or ret[ci] < 0:
                     ret[i] = time
                     break
-                stack.pop()
+                else:
+                    stack.pop()
             stack.append(i)
         return ret
-            
