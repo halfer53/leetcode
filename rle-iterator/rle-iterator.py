@@ -3,12 +3,13 @@ class RLEIterator:
     def __init__(self, encoding: List[int]):
         self.encoding = encoding
         self.i = 0
+        self.n = len(self.encoding)
 
     def next(self, n: int) -> int:
-        while self.i < len(self.encoding) and n > self.encoding[self.i]:
+        while self.i < self.n and n > self.encoding[self.i]:
             n -= self.encoding[self.i]
             self.i += 2
-        if self.i >= len(self.encoding):
+        if self.i >= self.n:
             return -1
         self.encoding[self.i] -= n
         return self.encoding[self.i + 1]
