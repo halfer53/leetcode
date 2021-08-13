@@ -5,10 +5,10 @@ class Solution:
         self.dfs(nums, [])
         return self.ret
         
-    def dfs(self, nums: List[int], track: List[int]):
-        if len(track) == self.n:
-            self.ret.append(track[:])
-        for i in range(len(nums)):
-            val = nums[i]
-            self.dfs(nums[:i] + nums[i+1:], track + [val]  )
-        
+    def dfs(self, available: List[int], arr: List[int]):
+        if len(arr) == self.n:
+            self.ret.append(arr[:])
+            return
+        for i in range(len(available)):
+            num = available[i]
+            self.dfs(available[:i] + available[i+1:], [num] + arr)
