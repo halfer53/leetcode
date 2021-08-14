@@ -1,26 +1,26 @@
 class Solution:
-    def decodeString(self, encoded: str) -> str:
-        self.n = len(encoded)
+    def decodeString(self, s: str) -> str:
         self.i = 0
-        self.encoded = encoded
+        self.n = len(s)
+        self.s = s
         return self.dfs()
     
-    def dfs(self):
+    def dfs(self) -> str:
+        if self.i >= self.n:
+            return ''
         ret = []
-        while self.i < self.n and self.encoded[self.i] != ']':
-            if not self.encoded[self.i].isnumeric():
-                ret.append(self.encoded[self.i])
+        while self.i < self.n and self.s[self.i] != ']':
+            if self.s[self.i].islower():
+                ret.append(self.s[self.i])
                 self.i += 1
             else:
-                val = []
-                while self.i < self.n and self.encoded[self.i].isnumeric():
-                    val.append(self.encoded[self.i])
+                numstart = self.i
+                while self.i < self.n and self.s[self.i].isnumeric():
                     self.i += 1
-                k = int(''.join(val))
+                num = int(self.s[numstart:self.i])
                 self.i += 1
-                decode = self.dfs()
+                nexrep = self.dfs()
+                ret.append(nexrep * num)
                 self.i += 1
-                ret.append(decode * k)
         return ''.join(ret)
-                    
-        
+                
