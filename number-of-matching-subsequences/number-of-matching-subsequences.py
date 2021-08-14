@@ -3,22 +3,24 @@ class Solution:
         dic = collections.defaultdict(list)
         ret = 0
         for w in words:
-            dic[w[0]].append(collections.deque([c for c in w]))
+            dic[w[0]].append(w)
         for c in s:
             if c in dic:
-                wordslist = dic[c]
-                idx = 0
-                while idx < len(wordslist):
-                    wlist = wordslist[idx]
-                    if len(wlist):
-                        wlist.popleft()
-                        if len(wlist) == 0:
-                            ret += 1
-                            wordslist.pop(idx)
-                            continue
-                        elif wlist[0] != c:
-                            wordslist.pop(idx)
-                            dic[wlist[0]].append(wlist)
-                            continue
-                    idx += 1
+                tmp = []
+                i = 0
+                n = len(dic[c])
+                arr = dic[c]
+                while i < n:
+                    w = arr[i]
+                    newval = w[1:]
+                    if newval:
+                        if newval[0] == c:
+                            tmp.append(newval)
+                        else:
+                            dic[newval[0]].append(newval)
+                    else:
+                        ret += 1
+                    i += 1
+                dic[c] = tmp
         return ret
+                    
