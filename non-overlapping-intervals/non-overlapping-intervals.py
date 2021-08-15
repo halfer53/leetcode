@@ -1,19 +1,15 @@
 class Solution:
     def eraseOverlapIntervals(self, intervals: List[List[int]]) -> int:
         ret = 0
-        intervals.sort(key= lambda x: (x[1], x[0]))
-        n = len(intervals)
+        arr = sorted(intervals, key= lambda x: (x[1], x[0]))
         i = j = 0
+        n = len(arr)
         while i < n:
-            x, y = intervals[i]
             j = i + 1
-            while j < n:
-                xx, yy = intervals[j]
-                if xx < y:
-                    ret += 1
-                    j += 1
-                else:
-                    break
+            while j < n and arr[j][0] < arr[i][1]:
+                j += 1
+                ret += 1
             i = j
         return ret
+            
             
