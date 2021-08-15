@@ -1,49 +1,37 @@
 class Solution:
     def alienOrder(self, words: List[str]) -> str:
-        queue = collections.deque([])
-        neighbour = collections.defaultdict(set)
         n = len(words)
+        q = collections.deque([])
         indegree = collections.defaultdict(int)
+        neighbour = collections.defaultdict(list)
         ret = []
-        prev = None
-        for w in words:
-            for c in w:
+        for i in range(n):
+            for c in words[i]:
                 if c not in indegree:
                     indegree[c] = 0
-            if prev:
-                i = j = 0
-                m = len(prev)
-                n = len(w)
-                clen = min(m, n)
-                if prev[:clen] == w[:clen] and m > n:
+            if i > 0:
+                prev = words[i-1]
+                curr = words[i]
+                length = min(len(prev), len(curr))
+                if prev[:length] == curr[:length] and len(prev) > len(curr):
                     return ''
-                while i < len(prev) and j < len(w):
-                    if prev[i] != w[j] and w[j]:
-                        if w[j] not in neighbour[prev[i]]:
-                            neighbour[prev[i]].add(w[j])
-                            indegree[w[j]] += 1
+                for j in range(length):
+                    if prev[j] != curr[j]:
+                        neighbour[prev[j]].append(curr[j])
+                        indegree[curr[j]] += 1
                         break
-                    i += 1
-                    j += 1
-            prev = w
-        for node, val in indegree.items():
-            if val == 0:
-                queue.append(node)
-        print(indegree, neighbour)
-        while len(queue):
-            node = queue.popleft()
-            ret.append(node)
-            for item in neighbour[node]:
-                if item == node:
-                    return ''
-                indegree[item] -= 1
-                if indegree[item] == 0:
-                    queue.append(item)
-                elif indegree[item] < 0:
-                    return ''
-        for node, val in indegree.items():
-            if val > 0:
+        for k, v in indegree.items():
+            if v == 0:
+                q.append(k)
+        while len(q):
+            c = q.popleft()
+            ret.append(c)
+            for nex in neighbour[c]:
+                indegree[nex] -= 1
+                if indegree[nex] == 0:
+                    q.append(nex)
+        for k,v in indegree.items():
+            if v > 0:
                 return ''
         return ''.join(ret)
-                
             
