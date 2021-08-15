@@ -1,25 +1,28 @@
 class Solution:
     def openLock(self, deadends: List[str], target: str) -> int:
-        queue = collections.deque([])
-        queue.append('0000')
-        ret = float('inf')
-        visited = set(['0000'])
-        sdead = set(deadends)
+        visited = set()
+        deadends = set(deadends)
+        visited.add('0000')
+        q = collections.deque([])
+        q.append('0000')
         step = 0
-        while len(queue):
-            sz = len(queue)
-            for i in range(sz):
-                pos = queue.popleft()
-                if pos in sdead:
+        while len(q):
+            size = len(q)
+            for _ in range(size):
+                curr = q.popleft()
+                if curr in deadends:
                     continue
-                if pos == target:
+                if curr == target:
                     return step
-                for j in range(4):
-                    for d in [-1, 1]:
-                        k = (int(pos[j]) + d ) % 10
-                        val = pos[:j] + str(k) + pos[j+1:]
-                        if val not in visited:
-                            queue.append(val)
-                            visited.add(val)
+                for i in range(4):
+                    for direction in [-1, 1]:
+                        c = int(curr[i])
+                        newc = (c + direction) % 10
+                        newstr = curr[:i] + str(newc) + curr[i+1:]
+                        if newstr not in visited:
+                            visited.add(newstr)
+                            q.append(newstr)
             step += 1
         return -1
+    
+        
