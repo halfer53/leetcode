@@ -3,12 +3,11 @@ class Solution:
         n = len(nums)
         dic = collections.defaultdict(int)
         dic[0] = 1
-        ret = curr = 0
+        curr = ret = 0
         for i in range(n):
             curr += nums[i]
             rem = curr - k
-            if rem in dic:
-                ret += dic[rem]
+            ret += dic[rem]
             dic[curr] += 1
         return ret
-            
+        
