@@ -1,27 +1,20 @@
 class Solution:
-    dic = dict()
     def diffWaysToCompute(self, expression: str) -> List[int]:
-        if expression in self.dic:
-            return self.dic[expression]
-        n = len(expression)
-        result = []
-        for i in range(n):
+        ret = []
+        for i in range(len(expression)):
             c = expression[i]
-            if c in ['-', '+', '*']:
-                r1 = self.diffWaysToCompute(expression[:i])
-                r2 = self.diffWaysToCompute(expression[i+1:])
-                for j in r1:
-                    for k in r2:
+            if c in ['-', '+', '*', ]:
+                left = self.diffWaysToCompute(expression[:i])
+                right = self.diffWaysToCompute(expression[i+1:])
+                for l in left:
+                    for r in right:
                         if c == '-':
-                            result.append(j - k)
+                            ret.append(l - r)
                         elif c == '+':
-                            result.append(j + k)
+                            ret.append(l + r)
                         elif c == '*':
-                            result.append(j * k)
-        if len(result) == 0:
-            result.append(int(expression))
-        self.dic[expression] = result[:]
-        return result
-                    
-                
+                            ret.append(l * r)
+        if len(ret) == 0:
+            ret.append(int(expression))
+        return ret
         
