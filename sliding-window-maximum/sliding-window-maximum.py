@@ -1,32 +1,30 @@
 class MonotonicQueue:
     def __init__(self):
-        self.queue = collections.deque()
-    
-    def put(self, item):
-        while len(self.queue) and self.queue[-1] < item:
-            self.queue.pop()
-        self.queue.append(item)
-
-    def remove(self, n):
-        if self.queue[0] == n:
-            item = self.queue.popleft()
-    
-    def max(self):
-        return self.queue[0]
+        self.q = deque([])
+        
+    def push(self, val: int):
+        while len(self.q) and self.q[-1] < val:
+            self.q.pop()
+        self.q.append(val)
+        
+    def remove(self, val: int):
+        if len(self.q) and self.q[0] == val:
+            self.q.popleft()
+            
+    def max(self)-> int:
+        return self.q[0]
 
 class Solution:
     def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
-        window = MonotonicQueue()
-        ret = []
-        i = 0
+        q = MonotonicQueue()
+        k -= 1
         n = len(nums)
-        while i < n:
-            if i < k - 1:
-                window.put(nums[i])
+        ret = []
+        for i in range(n):
+            if i < k:
+                q.push(nums[i])
             else:
-                window.put(nums[i])
-                ret.append(window.max())
-                window.remove(nums[i - k + 1])
-            i += 1
+                q.push(nums[i])
+                ret.append(q.max())
+                q.remove(nums[i-k])
         return ret
-                
