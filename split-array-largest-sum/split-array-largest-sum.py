@@ -1,26 +1,26 @@
 class Solution:
     def splitArray(self, nums: List[int], m: int) -> int:
+        n = len(nums)
         self.nums = nums
         low = max(nums)
         high = sum(nums) + 1
-        ans = 0
         while low <= high:
             mid = (low + high) // 2
-            n = self.split(mid)
-            if n <= m: # can you make at-most m sub-arrays with maximum sum atmost mid 
-                high = mid-1
+            k = self.split(mid)
+            if k <= m:
+                high = mid - 1
             else:
                 low = mid + 1
         return low
-    
-    def split(self, mid):
+        
+    def split(self, k: int) -> int:
         ret = 1
         curr = 0
-        for x in self.nums:
-            if curr + x > mid:
+        for val in self.nums:
+            if curr + val > k:
                 ret += 1
-                curr = x
+                curr = val
             else:
-                curr += x
+                curr += val
         return ret
-    
+        
