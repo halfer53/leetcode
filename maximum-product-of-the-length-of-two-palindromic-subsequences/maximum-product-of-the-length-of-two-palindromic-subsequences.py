@@ -8,7 +8,7 @@ class Solution:
             if i > j:
                 if num == 0:
                     ret = dfs(0, n-1, exclude, 1)
-                    print(exclude, ret, ret * len(exclude))
+                    # print(exclude, ret, ret * len(exclude))
                     return ret * len(exclude)
                 return 0
             if num == 1 and i in exclude:
