@@ -1,16 +1,19 @@
 class Solution:
     def deleteAndEarn(self, nums: List[int]) -> int:
-        nums.sort()
-        se = collections.Counter(nums)
+        count = collections.Counter(nums)
         n = len(nums)
-        @cache
-        def dfs(i: int) -> int:
-            if i >= n:
-                return 0
-            j = i
-            pt = nums[i]
-            while i < n and abs(nums[i] - pt) <= 1:
-                i += 1
-            return max(dfs(j+1), pt * se[pt] + dfs(i))
-        return dfs(0)
+        prev = pprev = ret = 0
+        pprevval = -1
+        for k in sorted(count):
+            v = count[k]
+            if pprevval == k - 1:
+                ret = max(ret, k * v + pprev)
+            else:
+                ret = max(ret, k * v + prev)
+            pprev = prev
+            prev = ret
+            pprevval = k
+        return ret
+            
+        
             
